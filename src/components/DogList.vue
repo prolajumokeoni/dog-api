@@ -1,9 +1,13 @@
 <template>
   <div>
-    <ul v-if="!loading">
-      <li v-for="(breed, index) in dogData" :key="index">
-        <img :src="breed.image" :alt="breed.name" />
-        <span>{{ breed.name }}</span>
+    <ul v-if="!loading" ref="dogList">
+      <li v-for="(breed, index) in dogData" :key="index" >
+        <router-link :to="`/dog/${breed.name}`">
+          <div>
+            <img :src="breed.image" :alt="breed.name"  />
+          </div>
+          <span>{{ breed.name }}</span>
+        </router-link>
       </li>
     </ul>
     <div v-else>
@@ -24,7 +28,6 @@ export default {
       try {
         const response = await fetch('https://dog.ceo/api/breeds/list/all');
         const responseData = await response.json();
-        console.log(responseData)
         const breeds = Object.keys(responseData.message);
 
         const data = [];
