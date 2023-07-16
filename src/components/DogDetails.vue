@@ -7,29 +7,26 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
+    const store = useStore();
     const route = useRoute();
-    const breed = ref(route.params.breed);
-    const dogData = ref(null);
-    const loading = ref(true);
+    const breed = route.params.breed;
 
-    onMounted(async () => {
-      try {
-        const breedResponse = await fetch(`https://dog.ceo/api/breed/${breed.value}/images/random`);
-        const breedData = await breedResponse.json();
-        const breedImage = breedData.message;
-
-        dogData.value = { image: breedImage };
-        loading.value = false;
-      } catch (error) {
-        console.error('Error fetching dog data:', error);
-        loading.value = false;
-      }
+    onMounted(() => {
+      store.dispatch('fetchDogData');
     });
+
+    const dogData = computed(() => {
+      const dogs = store.getters.getDogData;
+      return dogs.find((dog) => dog.name === breed) || null;
+    });
+
+    const loading = computed(() => store.getters.isLoading);
 
     return {
       breed,
@@ -39,3 +36,5 @@ export default {
   }
 };
 </script>
+
+ 
