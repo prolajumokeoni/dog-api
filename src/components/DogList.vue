@@ -1,15 +1,23 @@
 <template>
   <div class="dog-container">
-    <ul v-if="!loading" class="dog-list" ref="dogList">
-      <li v-for="(breed, index) in dogData" :key="index" class="dog-item">
-        <router-link :to="`/dog/${breed.name}`">
-          <div class="dog-image-container">
-            <img :src="breed.image" :alt="breed.name" class="dog-image" />
-          </div>
-          <span>{{ breed.name }}</span>
-        </router-link>
-      </li>
-    </ul>
+    <input v-model="searchTerm" type="search" placeholder="Search by Breed name" />
+
+    <div v-if="!loading">
+      <div class="dog-list">
+        <div v-for="(breed, index) in filteredDogData" :key="index" class="dog-item">
+          <router-link :to="`/dog/${breed.name}`">
+            <div class="dog-image-container">
+              <img :src="breed.image" :alt="breed.name" class="dog-image" />
+            </div>
+            <span>{{ breed.name }}</span>
+          </router-link>
+        </div>
+      </div>
+      <div v-if="filteredDogData.length === 0">
+        <h3>No dog with this breed name found.</h3>
+      </div>
+    </div>
+
     <div v-else>
       Loading...
     </div>
@@ -17,12 +25,13 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   setup() {
     const store = useStore();
+    const searchTerm = ref('');
 
     onMounted(() => {
       store.dispatch('fetchDogData');
@@ -31,50 +40,53 @@ export default {
     const dogData = computed(() => store.getters.getDogData);
     const loading = computed(() => store.getters.isLoading);
 
+    const filteredDogData = computed(() => {
+      if (!searchTerm.value) {
+        return dogData.value;
+      }
+
+      return dogData.value.filter((breed) =>
+        breed.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+      );
+    });
+
     return {
-      dogData,
+      searchTerm,
+      filteredDogData,
       loading
     };
   }
 };
 </script>
+
 <style>
 .dog-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .dog-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .dog-item {
-  width: 20%;
-  max-width: 200px;
+  width: 200px;
   margin: 10px;
   text-align: center;
 }
 
 .dog-image-container {
   width: 100%;
-  height: 0;
-  padding-bottom: 100%;
-  position: relative;
+  height: 200px;
   overflow: hidden;
 }
 
 .dog-image {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 </style>
-
