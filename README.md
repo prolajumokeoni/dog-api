@@ -50,8 +50,8 @@
 ![lambent-granita-610b96 netlify app_](https://github.com/prolajumokeoni/dog-api/assets/69638013/9042d9ac-f8f5-41bd-a49c-da1593c518db)
 
 ## Deployed Link <a name="Live Demo"></a>
-<p align="right"><a href="#readme-top">back to top</a></p>
- [Live demo](https://lambent-granita-610b96.netlify.app/)
+
+[Live demo](https://lambent-granita-610b96.netlify.app/)
 
 
 <!-- GETTING STARTED -->
