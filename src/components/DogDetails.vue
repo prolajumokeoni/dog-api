@@ -1,5 +1,5 @@
 <template>
-  <div v-if="loading">Loading...</div>
+  <div v-if="loading" class="loader-container"><div class="loader"></div></div>
   <div v-else>
     <h2>{{ breed }}</h2>
     <img :src="dogData.image" :alt="breed" />
