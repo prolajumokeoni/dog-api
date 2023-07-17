@@ -2,10 +2,10 @@
   <div v-if="loading" class="loader-container">
     <div class="loader"></div>
   </div>
-  <div v-else>
-    <h2>{{ breed }}</h2>
+  <main v-else>
+    <h1>{{ breed }}</h1>
     
-    <img :src="getTransformedUrl(dogData.image, selectedFilter)" :alt="breed" />
+    <img :src="getTransformedUrl(dogData.image, selectedFilter)" :alt="breed" class="details-image"/>
     
     <div>
       <button @click="applyFilter('cartoonify')">Cartoonify</button>
@@ -13,7 +13,7 @@
       <button @click="applyFilter('sepia')">Sepia</button>
       <button @click="resetFilter">Reset</button>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -78,4 +78,26 @@ export default {
 </script>
 
 <style>
+main {
+  margin: 0 auto;
+  width: 30%;
+}
+.details-image {
+  height: 350px;
+  width: 500px;
+}
+Button {
+  background-color:  #008CBA;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Chicle', cursive;
+
+}
 </style>
