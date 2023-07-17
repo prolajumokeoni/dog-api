@@ -4,9 +4,9 @@
   </div>
   <main v-else>
     <h1>{{ breed }}</h1>
-    
-    <img :src="getTransformedUrl(dogData.image, selectedFilter)" :alt="breed" class="details-image"/>
-    
+
+    <img :src="dogData.image" :alt="breed" class="details-image" />
+
     <div>
       <button @click="applyFilter('cartoonify')">Cartoonify</button>
       <button @click="applyFilter('grayscale')">Grayscale</button>
@@ -26,7 +26,7 @@ export default {
     const store = useStore();
     const route = useRoute();
     const breed = route.params.breed;
-    const selectedFilter = ref(null); 
+    const selectedFilter = ref(null);
 
     onMounted(() => {
       store.dispatch('fetchDogData');
@@ -38,23 +38,6 @@ export default {
     });
 
     const loading = computed(() => store.getters.isLoading);
-
-    const cloudinaryConfig = {
-      cloudName: 'dfum4zfrp',
-      transformations: {
-        cartoonify: 'e_cartoonify',
-        grayscale: 'e_grayscale',
-        sepia: 'e_sepia',
-      },
-    };
-
-    const getTransformedUrl = (imageUrl, filter) => {
-      if (filter && cloudinaryConfig.transformations[filter]) {
-        return `https://res.cloudinary.com/${cloudinaryConfig.cloudName}/image/upload/${cloudinaryConfig.transformations[filter]}/${imageUrl}`;
-      } else {
-        return imageUrl;
-      }
-    };
 
     const applyFilter = (filter) => {
       selectedFilter.value = filter;
@@ -69,7 +52,6 @@ export default {
       dogData,
       loading,
       selectedFilter,
-      getTransformedUrl,
       applyFilter,
       resetFilter,
     };
@@ -82,12 +64,14 @@ main {
   margin: 0 auto;
   width: 30%;
 }
+
 .details-image {
   height: 350px;
   width: 500px;
 }
+
 Button {
-  background-color:  #008CBA;
+  background-color: #008CBA;
   border: none;
   color: white;
   padding: 15px 30px;
@@ -98,6 +82,5 @@ Button {
   cursor: pointer;
   font-size: 16px;
   font-family: 'Chicle', cursive;
-
 }
 </style>

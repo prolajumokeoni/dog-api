@@ -7,9 +7,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@cloudinary/url-gen": "^1.10.2",
-    "@cloudinary/vue": "^1.11.2",
-    "cloudinary-vue": "^1.2.4",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
